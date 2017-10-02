@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     public GameObject Destination;
     public float Speed = 1;
     float moveTime = 0;
+    public GameObject ShadowPad;
     
     // Use this for initialization
     void Start () {
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour {
             gameObject.transform.SetPositionAndRotation(position, rotation);
             
         }
+        ShadowPad = gameObject.transform.Find("ShadowPad").gameObject;
+        ShadowPad.SetActive(false);
 
 	}
 	
@@ -38,8 +41,13 @@ public class Player : MonoBehaviour {
                 NextPos = FindNext(Destination);
                 moveTime = 0;
             }
+            // Display the shadow pad
+            if (NextPos.GetComponent<Waypoint>().EnableShadowPad || StandPos.GetComponent<Waypoint>().EnableShadowPad)
+                ShadowPad.SetActive(true);
+            else
+                ShadowPad.SetActive(false);
             // Skip the VirtualWaypoint
-            if(StandPos.GetComponent<Waypoint>() is VirtualWaypoint)
+            if (StandPos.GetComponent<Waypoint>() is VirtualWaypoint && NextPos.GetComponent<Waypoint>() is VirtualWaypoint)
             {
                 StandPos = NextPos;
                 NextPos = null;
@@ -62,9 +70,31 @@ public class Player : MonoBehaviour {
             else
             {
                 var move = NextPos.transform.position - StandPos.transform.position;
+                var rotate = NextPos.transform.rotation.eulerAngles - StandPos.transform.rotation.eulerAngles;
                 move *= Time.deltaTime / Speed;
+                rotate *= Time.deltaTime / Speed;
+                if(StandPos.GetComponent<Waypoint>() is SubWaypoint)
+                {
+                    var distance = (StandPos.GetComponent<Waypoint>() as SubWaypoint).Distance;
+                    move /= distance;
+                    rotate /= distance;
+                    moveTime += Time.deltaTime / distance;
+                }
+                else if(NextPos.GetComponent<Waypoint>() is SubWaypoint)
+                {
+                    var distance = (NextPos.GetComponent<Waypoint>() as SubWaypoint).Distance;
+                    move /= distance;
+                    rotate /= distance;
+                    moveTime += Time.deltaTime / distance;
+                }
+                else
+                {
+                    moveTime += Time.deltaTime;
+                }
+                move = gameObject.transform.InverseTransformVector(move);
+                //rotate = gameObject.transform.InverseTransformVector(rotate);
                 gameObject.transform.Translate(move);
-                moveTime += Time.deltaTime;
+                gameObject.transform.Rotate(rotate);
             }
         }
         SkipMove:;
@@ -86,6 +116,8 @@ public class Player : MonoBehaviour {
             visit.visitTime = time;
             foreach(var next in visit.NextWaypoint)
             {
+                if (next == null)
+                    continue;
                 // not visited.
                 if (next.visitTime < time)
                 {

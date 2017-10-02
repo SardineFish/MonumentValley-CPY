@@ -51,7 +51,7 @@ MeshRenderer:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609688085517106}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Visible: 0
   Next: []
+  EnableShadowPad: 0
 --- !u!114 &114751682046362084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eebb9154407e8f4489f862f03564ae8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TwoWay: 1
 --- !u!135 &135040468612109936
 SphereCollider:
   m_ObjectHideFlags: 1
