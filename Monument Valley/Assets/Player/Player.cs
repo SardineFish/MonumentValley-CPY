@@ -27,32 +27,48 @@ public class Player : MonoBehaviour {
 	void Update () {
         if (Destination)
         {
+            StartMove:
+            if (StandPos == Destination)
+            {
+                Destination = null;
+                goto SkipMove;
+            }
             if (!NextPos)
             {
                 NextPos = FindNext(Destination);
                 moveTime = 0;
             }
+            // Skip the VirtualWaypoint
+            if(StandPos.GetComponent<Waypoint>() is VirtualWaypoint)
+            {
+                StandPos = NextPos;
+                NextPos = null;
+
+                var position = StandPos.transform.position;
+                var rotation = StandPos.transform.rotation;
+                gameObject.transform.SetPositionAndRotation(position, rotation);
+                goto StartMove;
+            }
+
+            if (moveTime >= Speed)
+            {
+                StandPos = NextPos;
+                NextPos = null;
+
+                var position = StandPos.transform.position;
+                var rotation = StandPos.transform.rotation;
+                gameObject.transform.SetPositionAndRotation(position, rotation);
+            }
             else
             {
-                if (moveTime >= Speed)
-                {
-                    StandPos = NextPos;
-                    NextPos = null;
-
-                    var position = StandPos.transform.position;
-                    var rotation = StandPos.transform.rotation;
-                    gameObject.transform.SetPositionAndRotation(position, rotation);
-                }
-                else
-                {
-                    var move = NextPos.transform.position - StandPos.transform.position;
-                    move /= Time.deltaTime / Speed;
-                    gameObject.transform.Translate(move);
-                    moveTime += Time.deltaTime;
-                }
+                var move = NextPos.transform.position - StandPos.transform.position;
+                move *= Time.deltaTime / Speed;
+                gameObject.transform.Translate(move);
+                moveTime += Time.deltaTime;
             }
         }
-	}
+        SkipMove:;
+    }
     public Waypoint BFS(Waypoint from,Waypoint to,float time)
     {
         List<Waypoint> visitList = new List<Waypoint>();
@@ -88,9 +104,11 @@ public class Player : MonoBehaviour {
 
         Found:
         var p = to;
+        bool x = false;
         for(p=to; p.from != from; p = p.from)
         {
-
+            if (x)
+                return null;
         }
         return p;
     }

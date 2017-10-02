@@ -10,7 +10,7 @@ public class Waypoint : MonoBehaviour {
     internal float visitTime = 0;
     internal Waypoint from;
 	// Use this for initialization
-	void Start () {
+	protected void Start () {
         gameObject.GetComponent<Renderer>().enabled = Visible;
         NextWaypoint = new List<Waypoint>();
         foreach (var waypoint in Next)
@@ -18,9 +18,9 @@ public class Waypoint : MonoBehaviour {
             NextWaypoint.Add(waypoint.GetComponent<Waypoint>());
         }
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    protected void Update () {
 		
 	}
 }
