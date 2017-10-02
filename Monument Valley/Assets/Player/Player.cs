@@ -39,7 +39,7 @@ public class Player : MonoBehaviour {
                 moveTime = 0;
             }
             // Skip the VirtualWaypoint
-            if(StandPos.GetComponent<Waypoint>() is VirtualWaypoint)
+            if (StandPos.GetComponent<Waypoint>() is VirtualWaypoint && NextPos.GetComponent<Waypoint>() is VirtualWaypoint)
             {
                 StandPos = NextPos;
                 NextPos = null;
@@ -62,9 +62,31 @@ public class Player : MonoBehaviour {
             else
             {
                 var move = NextPos.transform.position - StandPos.transform.position;
+                var rotate = NextPos.transform.rotation.eulerAngles - StandPos.transform.rotation.eulerAngles;
                 move *= Time.deltaTime / Speed;
+                rotate *= Time.deltaTime / Speed;
+                if(StandPos.GetComponent<Waypoint>() is SubWaypoint)
+                {
+                    var distance = (StandPos.GetComponent<Waypoint>() as SubWaypoint).Distance;
+                    move /= distance;
+                    rotate /= distance;
+                    moveTime += Time.deltaTime / distance;
+                }
+                else if(NextPos.GetComponent<Waypoint>() is SubWaypoint)
+                {
+                    var distance = (NextPos.GetComponent<Waypoint>() as SubWaypoint).Distance;
+                    move /= distance;
+                    rotate /= distance;
+                    moveTime += Time.deltaTime / distance;
+                }
+                else
+                {
+                    moveTime += Time.deltaTime;
+                }
+                move = gameObject.transform.InverseTransformVector(move);
+                //rotate = gameObject.transform.InverseTransformVector(rotate);
                 gameObject.transform.Translate(move);
-                moveTime += Time.deltaTime;
+                gameObject.transform.Rotate(rotate);
             }
         }
         SkipMove:;
@@ -86,6 +108,8 @@ public class Player : MonoBehaviour {
             visit.visitTime = time;
             foreach(var next in visit.NextWaypoint)
             {
+                if (next == null)
+                    continue;
                 // not visited.
                 if (next.visitTime < time)
                 {

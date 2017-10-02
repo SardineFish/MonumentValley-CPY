@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
@@ -21,6 +22,14 @@ public class Waypoint : MonoBehaviour {
 
     // Update is called once per frame
     protected void Update () {
-		
+        if(NextWaypoint.Count < Next.Count)
+        {
+            NextWaypoint = new List<Waypoint>();
+            foreach (var waypoint in Next)
+            {
+                NextWaypoint.Add(waypoint.GetComponent<Waypoint>());
+            }
+        }
+
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ using UnityEngine;
 public class WaypointEdit : MonoBehaviour {
     Waypoint waypoint;
     public Dictionary<GameObject, GameObject> ConnectLines = new Dictionary<GameObject, GameObject>();
+    public bool TwoWay = true;
     // Use this for initialization
     void Start ()
     {
@@ -45,7 +47,20 @@ public class WaypointEdit : MonoBehaviour {
         for(var i = 0; i < waypoint.Next.Count; i++)
         {
             var connect = waypoint.Next[i];
-
+            if (connect == null)
+                continue;
+            if (TwoWay)
+            {
+                try
+                {
+                    if (!connect.GetComponent<Waypoint>().Next.Contains(gameObject))
+                        connect.GetComponent<Waypoint>().Next.Add(gameObject);
+                }
+                catch (Exception ex)
+                {
+                    var x = ex;
+                }
+            }
             if (connect == null)
                 continue;
             if(!ConnectLines.ContainsKey(connect))
