@@ -10,6 +10,10 @@ public class Player : MonoBehaviour {
     public float Speed = 1;
     float moveTime = 0;
     public GameObject ShadowPad;
+    public bool Docking = false;
+    internal float dockDepth = 0;
+    public float DockTime = 1;
+    public float DockDepth = 0.4f;
     
     // Use this for initialization
     void Start () {
@@ -28,12 +32,31 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Destination)
+        if (Docking)
+        {
+            var d =  DockDepth * (Time.deltaTime / DockTime);
+            if (d + dockDepth > DockDepth)
+            {
+                d = DockDepth - dockDepth;
+                transform.Find("Body").Translate(new Vector3(0, -d, 0));
+                End();
+            }
+            else
+                transform.Find("Body").Translate(new Vector3(0, -d, 0));
+            dockDepth += d;
+        }
+        else if (Destination)
         {
             StartMove:
             if (StandPos == Destination)
             {
                 Destination = null;
+                // End
+                if(StandPos.GetComponent<Waypoint>() is EndWaypoint)
+                {
+                    Docking = true;
+                    dockDepth = 0;
+                }
                 goto SkipMove;
             }
             if (!NextPos)
@@ -97,7 +120,18 @@ public class Player : MonoBehaviour {
                 gameObject.transform.Rotate(rotate);
             }
         }
+        else
+        {
+            transform.position = StandPos.transform.position;
+        }
         SkipMove:;
+    }
+    public void End()
+    {
+        Docking = false;
+        GameObject.Find("Main Camera").GetComponent<ShakeCamera>().Enable = true;
+        GameObject.Find("Block-End").GetComponent<EndScript>().enabled = true;
+        GameObject.Find("Block-End").transform.Find("Blocks-Drop").gameObject.SetActive(true);
     }
     public Waypoint BFS(Waypoint from,Waypoint to,float time)
     {
