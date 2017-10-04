@@ -62,6 +62,11 @@ public class Player : MonoBehaviour {
             if (!NextPos)
             {
                 NextPos = FindNext(Destination);
+                if (!NextPos)
+                {
+                    Destination = null;
+                    goto SkipMove;
+                }
                 moveTime = 0;
             }
             // Display the shadow pad
@@ -133,7 +138,7 @@ public class Player : MonoBehaviour {
         GameObject.Find("Map-End").GetComponent<EndScript>().enabled = true;
         GameObject.Find("Map-End").transform.Find("Blocks-Drop").gameObject.SetActive(true);
     }
-    public Waypoint BFS(Waypoint from,Waypoint to,float time)
+    public Waypoint BFS(Waypoint from,Waypoint to,int time)
     {
         List<Waypoint> visitList = new List<Waypoint>();
         visitList.Add(from);
@@ -178,10 +183,14 @@ public class Player : MonoBehaviour {
         }
         return p;
     }
+    int searchTime = 0;
     public GameObject FindNext(GameObject dst)
     {
         var to = dst.GetComponent<Waypoint>();
         var from = StandPos.GetComponent<Waypoint>();
-        return BFS(from, to, Time.time).gameObject;
+        var waypoint = BFS(from, to, searchTime++);
+        if (waypoint == null)
+            return null;
+        return waypoint.gameObject;
     }
 }
