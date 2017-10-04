@@ -130,8 +130,8 @@ public class Player : MonoBehaviour {
     {
         Docking = false;
         GameObject.Find("Main Camera").GetComponent<ShakeCamera>().Enable = true;
-        GameObject.Find("Block-End").GetComponent<EndScript>().enabled = true;
-        GameObject.Find("Block-End").transform.Find("Blocks-Drop").gameObject.SetActive(true);
+        GameObject.Find("Map-End").GetComponent<EndScript>().enabled = true;
+        GameObject.Find("Map-End").transform.Find("Blocks-Drop").gameObject.SetActive(true);
     }
     public Waypoint BFS(Waypoint from,Waypoint to,float time)
     {

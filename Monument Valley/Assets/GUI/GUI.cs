@@ -8,6 +8,7 @@ public class GUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame
@@ -22,7 +23,7 @@ public class GUI : MonoBehaviour {
 
     public void EndGame()
     {
-        //Time.timeScale = 0;
+        Time.timeScale = 0;
         transform.Find("EndMenu").gameObject.SetActive(true);
     }
     
@@ -42,5 +43,10 @@ public class GUI : MonoBehaviour {
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("Map-1", LoadSceneMode.Single);
+    }
+
+    public void Exit()
+    {
+        Application.Quit();
     }
 }
