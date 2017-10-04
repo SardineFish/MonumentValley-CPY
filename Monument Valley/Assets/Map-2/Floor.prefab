@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4488616242911582}
   - component: {fileID: 33407885906552334}
   - component: {fileID: 23406555325795494}
+  - component: {fileID: 65052550506479774}
+  - component: {fileID: 114126748614802426}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -80,3 +82,27 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1155789689638896}
   m_Mesh: {fileID: 4300000, guid: 11c85c36924319b40b8b94afa97ce33b, type: 3}
+--- !u!65 &65052550506479774
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1155789689638896}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.25, z: 1}
+  m_Center: {x: -0.5, y: -0.125, z: -0.5}
+--- !u!114 &114126748614802426
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1155789689638896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24a58d37cfafeb438267a2c2b49efe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Waypoint: {fileID: 0}
