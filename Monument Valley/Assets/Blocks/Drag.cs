@@ -5,9 +5,12 @@ using UnityEngine;
 public class Drag : MonoBehaviour {
     public Vector3 DragVector;
     public GameObject DragObject;
+    public Vector3[] AlignPosition;
+    public float AlignTime = 1;
     bool mouseHold = false;
     Vector3 holdPos;
     Vector3 startPos;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -18,6 +21,18 @@ public class Drag : MonoBehaviour {
         if (Input.GetMouseButtonUp(0))
         {
             mouseHold = false;
+            var minDst = float.MaxValue;
+            var minAlign = DragObject.transform.position;
+            foreach (var align in AlignPosition)
+            {
+                var dst = (DragObject.transform.position - align).magnitude;
+                if(dst<minDst)
+                {
+                    minDst = dst;
+                    minAlign = align;
+                }
+            }
+            MoveTo.Start(new MoveTo.MoveOptions(DragObject, (minAlign - DragObject.transform.position), AlignTime));
         }
         if (mouseHold)
         {
