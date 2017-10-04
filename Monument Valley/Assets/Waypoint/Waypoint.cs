@@ -33,4 +33,42 @@ public class Waypoint : MonoBehaviour {
         }
 
 	}
+
+    public void AddWaypoint(GameObject waypoint)
+    {
+        if (!waypoint.GetComponent<Waypoint>().Next.Contains(this.gameObject))
+        {
+            waypoint.GetComponent<Waypoint>().Next.Add(this.gameObject);
+        }
+        if (!waypoint.GetComponent<Waypoint>().NextWaypoint.Contains(this))
+        {
+            waypoint.GetComponent<Waypoint>().NextWaypoint.Add(this);
+        }
+        if (!this.Next.Contains(waypoint))
+            this.Next.Add(waypoint);
+        if (!this.NextWaypoint.Contains(waypoint.GetComponent<Waypoint>()))
+            this.NextWaypoint.Add(waypoint.GetComponent<Waypoint>());
+    }
+
+    public void RemoveWaypoint(GameObject waypoint)
+    {
+        // Remove this waypoint from that waypoint.
+        if (waypoint.GetComponent<Waypoint>().Next.Contains(gameObject))
+            waypoint.GetComponent<Waypoint>().Next.Remove(gameObject);
+        if (waypoint.GetComponent<Waypoint>().NextWaypoint.Contains(this))
+            waypoint.GetComponent<Waypoint>().NextWaypoint.Remove(this);
+
+        if (Next.Contains(waypoint))
+            this.Next.Remove(waypoint);
+        if (this.NextWaypoint.Contains(waypoint.GetComponent<Waypoint>()))
+            this.NextWaypoint.Remove(waypoint.GetComponent<Waypoint>());
+    }
+
+    public void ClearWaypoint()
+    {
+        foreach (var waypoint in Next)
+        {
+            RemoveWaypoint(waypoint);
+        }
+    }
 }

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33208151702817906}
   - component: {fileID: 23616388503771682}
   - component: {fileID: 114323210906021000}
+  - component: {fileID: 65073696953595310}
   m_Layer: 0
   m_Name: EndPad
   m_TagString: Untagged
@@ -82,6 +83,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1322338181959934}
   m_Mesh: {fileID: 4300000, guid: 6bb8f49124fd2b441ae9cf37f99123e3, type: 3}
+--- !u!65 &65073696953595310
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1322338181959934}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.84852815, y: 0.125, z: 0.84852815}
+  m_Center: {x: 0, y: 0.0625, z: 0}
 --- !u!114 &114323210906021000
 MonoBehaviour:
   m_ObjectHideFlags: 1

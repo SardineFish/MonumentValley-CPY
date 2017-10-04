@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Drag : MonoBehaviour {
+
     public Vector3 DragVector;
     public GameObject DragObject;
     public Vector3[] AlignPosition;
@@ -18,21 +19,31 @@ public class Drag : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if (Input.GetMouseButtonUp(0))
+        if (mouseHold && Input.GetMouseButtonUp(0))
         {
             mouseHold = false;
             var minDst = float.MaxValue;
             var minAlign = DragObject.transform.position;
-            foreach (var align in AlignPosition)
+            var idx = 0;
+            for(var i=0;i<AlignPosition.Length;i++)
             {
+                var align = AlignPosition[i];
                 var dst = (DragObject.transform.position - align).magnitude;
                 if(dst<minDst)
                 {
+                    idx = i;
                     minDst = dst;
                     minAlign = align;
                 }
             }
-            MoveTo.Start(new MoveTo.MoveOptions(DragObject, (minAlign - DragObject.transform.position), AlignTime));
+            MoveTo.MoveOptions options = new MoveTo.MoveOptions(DragObject, minAlign, AlignTime);
+            options.OnFinished += (sender, e) =>
+            {
+                var callback = DragObject.GetComponent<WaypointCallback>();
+                if (callback != null)
+                    callback.ConnectCallback(idx);
+            };
+            MoveTo.Start(options);
         }
         if (mouseHold)
         {
@@ -56,8 +67,13 @@ public class Drag : MonoBehaviour {
                 dv.z *= DragVector.z;
             }
             DragObject.transform.position = startPos + dv;
+
+            var callback = DragObject.GetComponent<WaypointCallback>();
+            if (callback != null)
+                callback.DisConnectCallback(0);
         }
 	}
+
     private void OnMouseDown()
     {
         if (mouseHold)
@@ -70,12 +86,5 @@ public class Drag : MonoBehaviour {
             holdPos = hit.point;
             startPos = DragObject.transform.position;
         }
-    }
-    private void OnMouseUp()
-    {
-        mouseHold = false;
-    }
-    private void OnMouseDrag()
-    {
     }
 }
