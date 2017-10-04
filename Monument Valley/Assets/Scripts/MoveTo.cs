@@ -71,7 +71,7 @@ public class MoveTo : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        MoveList = new Dictionary<GameObject, MoveOptions>();
+        //MoveList = new Dictionary<GameObject, MoveOptions>();
 	}
 	
 	// Update is called once per frame

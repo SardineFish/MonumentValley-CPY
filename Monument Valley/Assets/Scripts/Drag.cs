@@ -81,10 +81,19 @@ public class Drag : MonoBehaviour {
         mouseHold = true;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        holdPos = new Vector3 ();
+        startPos = DragObject.transform.position;
         if (Physics.Raycast(ray, out hit, 500, 1 << 8))
         {
-            holdPos = hit.point;
-            startPos = DragObject.transform.position;
+            holdPos.y = hit.point.y;
+        }
+        if (Physics.Raycast(ray, out hit, 500, 1 << 9))
+        {
+            holdPos.x = hit.point.x;
+        }
+        if (Physics.Raycast(ray, out hit, 500, 1 << 10))
+        {
+            holdPos.z = hit.point.z;
         }
     }
 }
