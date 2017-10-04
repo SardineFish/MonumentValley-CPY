@@ -26,10 +26,13 @@ public class Surface : MonoBehaviour
         if (Waypoint)
         {
             GameObject.Find("Player").GetComponent<Player>().Destination = Waypoint;
-            /*var sound = GameObject.Find("Click-Sound");
-            var soundPlay = Instantiate(sound);
-            soundPlay.SetActive(true);
-            Destroy(soundPlay, 4);*/
+            var sound = GameObject.Find("Click-Sound");
+            if(sound)
+            {
+                var soundPlay = Instantiate(sound, GameObject.Find("Audios").transform);
+                soundPlay.SetActive(true);
+                Destroy(soundPlay, 3);
+            }
         }
     }
 }
