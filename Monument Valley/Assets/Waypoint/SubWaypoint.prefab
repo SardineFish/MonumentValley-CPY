@@ -95,9 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Visible: 0
-  Next:
-  - {fileID: 0}
-  - {fileID: 0}
+  Next: []
   EnableShadowPad: 0
   Distance: 0.5
 --- !u!114 &114404356332949638
