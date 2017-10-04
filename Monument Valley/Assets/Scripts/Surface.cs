@@ -31,6 +31,7 @@ public class Surface : MonoBehaviour
             {
                 var soundPlay = Instantiate(sound, GameObject.Find("Audios").transform);
                 soundPlay.SetActive(true);
+                soundPlay.GetComponent<AudioSource>().enabled = true;
                 Destroy(soundPlay, 3);
             }
         }
