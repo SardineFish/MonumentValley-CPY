@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4312802044688728}
   - component: {fileID: 33348948207337786}
   - component: {fileID: 23467296842449498}
+  - component: {fileID: 114876535007256106}
+  - component: {fileID: 65211913110975256}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -81,3 +83,27 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1544680348155734}
   m_Mesh: {fileID: 4300000, guid: d9ab69a8994843c47bf17e685beb2d67, type: 3}
+--- !u!65 &65211913110975256
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1544680348155734}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: -0.5, y: 1, z: -0.5}
+--- !u!114 &114876535007256106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1544680348155734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c24a58d37cfafeb438267a2c2b49efe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Waypoint: {fileID: 0}
