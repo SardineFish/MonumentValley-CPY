@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GUI : MonoBehaviour {
 
+    public GameObject GameSystem;
+
 	// Use this for initialization
 	void Start () {
         Time.timeScale = 1;
@@ -17,20 +19,17 @@ public class GUI : MonoBehaviour {
 	}
     public void PauseGame()
     {
-        Time.timeScale = 0;
-        transform.Find("PauseMenu").gameObject.SetActive(true);
+        GameSystem.GetComponent<GameSystem>().PauseGame();
     }
 
     public void EndGame()
     {
-        Time.timeScale = 0;
-        transform.Find("EndMenu").gameObject.SetActive(true);
+        GameSystem.GetComponent<GameSystem>().EndGame();
     }
     
     public void ResumeGame()
     {
-        transform.Find("PauseMenu").gameObject.SetActive(false);
-        Time.timeScale = 1;
+        GameSystem.GetComponent<GameSystem>().ResumeGame();
     }
 
     public void ShowBackground(Action callback)
@@ -41,12 +40,15 @@ public class GUI : MonoBehaviour {
 
     public void Restart()
     {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("Map-1", LoadSceneMode.Single);
+        GameSystem.GetComponent<GameSystem>().Restart();
+    }
+
+    public void Next()
+    {
+        GameSystem.GetComponent<GameSystem>().NextMap();
     }
 
     public void Exit()
     {
-        Application.Quit();
     }
 }

@@ -65,8 +65,11 @@ public class WaypointEdit : MonoBehaviour {
                 continue;
             if(!ConnectLines.ContainsKey(connect))
             {
+                var cntLines = GameObject.Find("__cntLines");
+                if (!cntLines)
+                    cntLines = new GameObject("__cntLines");
                 var line = new GameObject();
-                
+                line.transform.SetParent(cntLines.transform);
                 line.name = "__connection";
                 line.AddComponent<ConnectLine>();
                 line.AddComponent<LineRenderer>();

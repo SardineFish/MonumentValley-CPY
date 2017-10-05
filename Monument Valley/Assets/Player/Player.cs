@@ -7,11 +7,12 @@ public class Player : MonoBehaviour {
     public GameObject NextPos;
     public GameObject StandPos;
     public GameObject Destination;
+    public GameObject GameSystem;
     public float Speed = 1;
     float moveTime = 0;
     public GameObject ShadowPad;
     public bool Docking = false;
-    internal float dockDepth = 0;
+    internal float dockedDepth = 0;
     public float DockTime = 1;
     public float DockDepth = 0.4f;
     
@@ -34,16 +35,7 @@ public class Player : MonoBehaviour {
 	void Update () {
         if (Docking)
         {
-            var d =  DockDepth * (Time.deltaTime / DockTime);
-            if (d + dockDepth > DockDepth)
-            {
-                d = DockDepth - dockDepth;
-                transform.Find("Body").Translate(new Vector3(0, -d, 0));
-                End();
-            }
-            else
-                transform.Find("Body").Translate(new Vector3(0, -d, 0));
-            dockDepth += d;
+            goto SkipMove;
         }
         else if (Destination)
         {
@@ -54,8 +46,7 @@ public class Player : MonoBehaviour {
                 // End
                 if(StandPos.GetComponent<Waypoint>() is EndWaypoint)
                 {
-                    Docking = true;
-                    dockDepth = 0;
+                    GameSystem.GetComponent<GameSystem>().GameEndingCallback();
                 }
                 goto SkipMove;
             }
@@ -131,13 +122,6 @@ public class Player : MonoBehaviour {
         }
         SkipMove:;
     }
-    public void End()
-    {
-        Docking = false;
-        GameObject.Find("Main Camera").GetComponent<ShakeCamera>().Enable = true;
-        GameObject.Find("Map-End").GetComponent<EndScript>().enabled = true;
-        GameObject.Find("Map-End").transform.Find("Blocks-Drop").gameObject.SetActive(true);
-    }
     public Waypoint BFS(Waypoint from,Waypoint to,int time)
     {
         List<Waypoint> visitList = new List<Waypoint>();
@@ -188,7 +172,7 @@ public class Player : MonoBehaviour {
     {
         var to = dst.GetComponent<Waypoint>();
         var from = StandPos.GetComponent<Waypoint>();
-        var waypoint = BFS(from, to, searchTime++);
+        var waypoint = BFS(from, to, ++searchTime);
         if (waypoint == null)
             return null;
         return waypoint.gameObject;

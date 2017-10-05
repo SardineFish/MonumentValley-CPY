@@ -11,7 +11,7 @@ public class Map_2_1_Move : WaypointCallback {
     {
         if (param == 0)
         {
-            WaypointNearPillar.GetComponent<Waypoint>().AddWaypoint(WaypointList[2]);
+            WaypointLow.GetComponent<Waypoint>().AddWaypoint(WaypointList[2]);
         }
         if (param == 1)
         {

@@ -17,7 +17,7 @@ public class EndScript : MonoBehaviour {
         transform.Translate(new Vector3(0, dy, 0));
         if (Time.time - endTime >= WaitTime)
         {
-            GameObject.Find("GUI").GetComponent<GUI>().EndGame();
+            GameObject.Find("GameSystem").GetComponent<GameSystem>().EndGame();
         }
 	}
 }

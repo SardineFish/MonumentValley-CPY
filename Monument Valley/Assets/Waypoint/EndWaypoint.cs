@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EndWaypoint : Waypoint {
-
 	// Use this for initialization
 	new void Start () {
         base.Start();
