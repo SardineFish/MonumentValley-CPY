@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Map3_1GameSystem : GameSystem {
-
+    public Vector3 MoveSpawnTo;
+    public GameObject SpawnBlock;
     public GameObject StartPosition;
     public GameObject Player;
     // Use this for initialization
@@ -13,6 +14,7 @@ public class Map3_1GameSystem : GameSystem {
         options.OnFinished += (sender, e) =>
         {
             Player.GetComponent<Player>().enabled = true;
+            SpawnBlock.transform.position = MoveSpawnTo;
         };
         MoveTo.Start(options);
     }
@@ -31,7 +33,11 @@ public class Map3_1GameSystem : GameSystem {
         options.OnFinished += (sender, e) =>
         {
             player.Docking = false;
-            EndGame();
+            GameObject.Find("EndPad").transform.Find("Waypoint").GetComponent<Waypoint>().ClearWaypoint();
+            //EndGame();
+            GameObject.Find("Tower").GetComponent<Map3_1TowerRotation>().enabled = true;
+            GameObject.Find("Other").GetComponent<Map3_1Rotation>().enabled = true;
+            
         };
         MoveTo.Start(options);
     }
