@@ -50,5 +50,6 @@ public class GUI : MonoBehaviour {
 
     public void Exit()
     {
+        GameSystem.GetComponent<GameSystem>().Exit();
     }
 }

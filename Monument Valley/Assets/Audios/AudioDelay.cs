@@ -12,7 +12,7 @@ public class AudioDelay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Time.time >= Delay)
+        if (Time.time-startTime >= Delay)
         {
             gameObject.GetComponent<AudioSource>().enabled = true;
             this.enabled = false;

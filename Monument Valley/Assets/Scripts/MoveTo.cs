@@ -55,13 +55,13 @@ public class MoveTo : MonoBehaviour {
         }
         public event EventHandler OnFinished;
     }
-    static Dictionary<GameObject, MoveOptions> MoveList = new Dictionary<GameObject, MoveOptions>();
+    public static Dictionary<GameObject, MoveOptions> MoveList = new Dictionary<GameObject, MoveOptions>();
     public static void Start(MoveOptions options)
     {
         MoveList[options.GameObject] = options;
         options.OnFinished += (sender, e) =>
         {
-            MoveList.Remove(options.GameObject);
+            MoveTo.MoveList.Remove((sender as MoveTo.MoveOptions).GameObject);
         };
     }
     public static void Stop(GameObject gameObj)
@@ -78,6 +78,10 @@ public class MoveTo : MonoBehaviour {
 	void Update () {
 		foreach(var item in MoveList)
         {
+            if(!item.Key)
+            {
+                MoveList.Remove(item.Key);
+            }
             item.Value.Move(Time.deltaTime);
         }
 	}
