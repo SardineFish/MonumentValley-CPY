@@ -82,7 +82,14 @@ public class MoveTo : MonoBehaviour {
             {
                 MoveList.Remove(item.Key);
             }
-            item.Value.Move(Time.deltaTime);
+            try
+            {
+                item.Value.Move(Time.deltaTime);
+            }
+            catch (Exception ex)
+            {
+                MoveList.Remove(item.Key);
+            }
         }
 	}
 }
