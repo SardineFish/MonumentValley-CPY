@@ -90,6 +90,16 @@ public class Player : MonoBehaviour {
             {
                 var move = NextPos.transform.position - StandPos.transform.position;
                 var rotate = NextPos.transform.rotation.eulerAngles - StandPos.transform.rotation.eulerAngles;
+                rotate = rotate + new Vector3(360, 360, 360);
+                rotate.x = rotate.x - (((int)(rotate.x / 360)) * 360);
+                rotate.y = rotate.y - (((int)(rotate.y / 360)) * 360);
+                rotate.z = rotate.z - (((int)(rotate.z / 360)) * 360);
+                if (rotate.x > 180)
+                    rotate.x -= 360;
+                if (rotate.y > 180)
+                    rotate.y -= 360;
+                if (rotate.z > 180)
+                    rotate.z -= 360;
                 move *= Time.deltaTime / Speed;
                 rotate *= Time.deltaTime / Speed;
                 if(StandPos.GetComponent<Waypoint>() is SubWaypoint)
@@ -119,6 +129,7 @@ public class Player : MonoBehaviour {
         else
         {
             transform.position = StandPos.transform.position;
+            transform.rotation = StandPos.transform.rotation;
         }
         SkipMove:;
     }

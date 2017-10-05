@@ -34,6 +34,11 @@ public class Waypoint : MonoBehaviour {
 
 	}
 
+    public static Waypoint Get(GameObject waypoint)
+    {
+        return waypoint.GetComponent<Waypoint>();
+    }
+
     public void AddWaypoint(GameObject waypoint)
     {
         if (!waypoint.GetComponent<Waypoint>().Next.Contains(this.gameObject))

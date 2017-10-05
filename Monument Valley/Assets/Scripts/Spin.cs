@@ -5,6 +5,8 @@ using UnityEngine;
 public class Spin : MonoBehaviour {
     public Vector3[] AlignRotation;
     public GameObject RotateObject;
+    public int SpinHitPadLayer;
+    public GameObject SpinHitPad;
     public Vector3 Center;
     public Vector3 DirVector;
     public Vector3 RotateVector;
@@ -29,7 +31,7 @@ public class Spin : MonoBehaviour {
 
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 500, 1 << 11))
+                if (Physics.Raycast(ray, out hit, 500, 1 << SpinHitPadLayer))
                 {
                     var v = ToVector2(Multi((hit.point - Center), DirVector));
                     var angle = Mathf.Atan2(v.x, v.y) - holdAngle;
@@ -58,13 +60,13 @@ public class Spin : MonoBehaviour {
                     };
                     RotateTo.Start(option);
                 }
-                transform.Find("SpinPlane").gameObject.SetActive(false);
+                SpinHitPad.gameObject.SetActive(false);
             }
             else
             {
                 var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 500, 1 << 11))
+                if (Physics.Raycast(ray, out hit, 500, 1 << SpinHitPadLayer))
                 {
                     var v = ToVector2(Multi((hit.point - Center), DirVector));
                     var angle = Mathf.Atan2(v.x, v.y) - holdAngle;
@@ -79,12 +81,13 @@ public class Spin : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        transform.Find("SpinPlane").gameObject.SetActive(true);
+        RotateObject.GetComponent<WaypointCallback>().DisConnectCallback(0);
+        SpinHitPad.gameObject.SetActive(true);
         hold = true;
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         holdPos = new Vector3();
-        if(Physics.Raycast(ray, out hit, 500, 1 << 11))
+        if(Physics.Raycast(ray, out hit, 500, 1 << SpinHitPadLayer))
         {
             holdPos = hit.point;
             var v = ToVector2(Multi((hit.point - Center), DirVector));
