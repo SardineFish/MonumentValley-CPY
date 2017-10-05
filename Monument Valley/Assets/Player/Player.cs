@@ -122,8 +122,12 @@ public class Player : MonoBehaviour {
                 }
                 move = gameObject.transform.InverseTransformVector(move);
                 //rotate = gameObject.transform.InverseTransformVector(rotate);
+                var e = transform.rotation;
+                e.eulerAngles = transform.rotation.eulerAngles + rotate;
+                gameObject.transform.rotation = e;
                 gameObject.transform.Translate(move);
-                gameObject.transform.Rotate(rotate);
+                //gameObject.transform.SetPositionAndRotation(transform.position + move, e);
+                //gameObject.transform.Rotate(rotate);
             }
         }
         else
