@@ -32,12 +32,14 @@ public class Map3_1GameSystem : GameSystem {
         var options = new MoveTo.MoveOptions(body, body.transform.position - new Vector3(0, player.DockDepth, 0), player.DockTime);
         options.OnFinished += (sender, e) =>
         {
-            player.Docking = false;
-            GameObject.Find("EndPad").transform.Find("Waypoint").GetComponent<Waypoint>().ClearWaypoint();
             //EndGame();
             GameObject.Find("Tower").GetComponent<Map3_1TowerRotation>().enabled = true;
             GameObject.Find("Other").GetComponent<Map3_1Rotation>().enabled = true;
-            
+            player.Docking = false;
+            var endPad = GameObject.Find("EndPad").transform;
+            var waypointObj = endPad.transform.Find("Waypoint");
+            var waypoint = waypointObj.GetComponent<Waypoint>();
+            waypoint.ClearWaypoint();
         };
         MoveTo.Start(options);
     }

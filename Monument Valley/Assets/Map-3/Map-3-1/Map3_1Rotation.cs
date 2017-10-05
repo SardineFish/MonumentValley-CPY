@@ -7,7 +7,7 @@ public class Map3_1Rotation : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        MoveTo.Start(new MoveTo.MoveOptions(gameObject, transform.position + new Vector3(0, 0, -10), 10));
+        MoveTo.Start(new MoveTo.MoveOptions(gameObject, transform.position + new Vector3(0, 0, -20), 20));
     }
 	
 	// Update is called once per frame
