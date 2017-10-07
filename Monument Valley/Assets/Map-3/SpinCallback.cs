@@ -8,7 +8,7 @@ public class SpinCallback : WaypointCallback {
     public GameObject[] WaypointOnTop;
     public override void ConnectCallback(int param)
     {
-        if(0<param && param < 4)
+        if(0<=param && param < 4)
             Waypoint.Get(WaypointOnPivot[param]).AddWaypoint(WaypointList[0]);
         if (param == 0)
         {
